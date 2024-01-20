@@ -1,4 +1,4 @@
-### CryptoCurrency Price Prediction ###
+### Cryptocurrency Price Prediction by LSTM###
 # For Data Processing/Wrangling
 import pandas as pd
 import numpy as np
@@ -30,10 +30,14 @@ scaler = MinMaxScaler(feature_range=(0, 1))
 scaled_data = scaler.fit_transform(data["Close"].values.reshape(-1, 1))
 
 prediction_days = 60
+# if we want to predict, not on the next day after 60 days, add:
+# future_days = 30
+
 x_train, y_train = [], []
-for x in range(prediction_days, len(scaled_data)):
+for x in range(prediction_days, len(scaled_data)):  # len(scaled_data)- future_days
     x_train.append(scaled_data[x - prediction_days : x, 0])
-    y_train.append(scaled_data[x, 0])
+    y_train.append(scaled_data[x, 0])  # x + future_days
+## Comments in the loop are for prediction for a desired future_days
 
 x_train, y_train = np.array(x_train), np.array(y_train)
 x_train = np.reshape(x_train, (x_train.shape[0], x_train.shape[1], 1))
@@ -89,3 +93,14 @@ plt.xlabel("Time")
 plt.ylabel(f"Price in {crypto_currency} ")
 plt.legend(loc="upper left")
 plt.show()
+
+# Predict the Next Day
+real_data = [
+    model_inputs[len(model_inputs) + 1 - prediction_days : len(model_inputs) + 1, 0]
+]
+real_data = np.array(real_data)
+real_data = np.reshape(real_data, (real_data.shape[0], real_data[1]), 1)
+
+prediction = model.predict(real_data)
+prediction = scaler.inverse_transform(prediction)
+print(prediction)
