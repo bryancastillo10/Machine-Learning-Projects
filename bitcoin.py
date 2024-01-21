@@ -2,6 +2,7 @@
 # For Data Processing/Wrangling
 import pandas as pd
 import numpy as np
+import datetime as dt
 
 # For Data Visualization
 import matplotlib.pyplot as plt
@@ -9,7 +10,7 @@ import matplotlib.pyplot as plt
 # For Data Mining using API
 import yfinance as yfin
 from pandas_datareader import data as pdr
-import datetime as dt
+
 
 # For Machine Learning Algorithm
 from sklearn.preprocessing import MinMaxScaler
